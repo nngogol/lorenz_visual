@@ -45,6 +45,12 @@ var scaleValStep = 1;
 
 
 var gui;
+let speedCam = 2
+
+let drotateX = 0
+let drotateY = 0
+let drotateZ = 0
+
 
 let points = []
 
@@ -104,18 +110,75 @@ function viewModel() {
   endShape();
 }
 
+
+function keyPressed() {	
+	// switch(keyCode){
+	// 		case 81:
+	// 			drotateX += speedCam; break;
+	// 		case 69:
+	// 			drotateX -= speedCam; break;
+	// 		case 87:
+	// 			drotateY += speedCam; break;
+	// 		case 83:
+	// 			drotateY -= speedCam; break;
+	// 		case 65:
+	// 			drotateZ += speedCam; break;
+	// 		case 68:
+	// 			drotateZ -= speedCam; break;
+	// 	}
+
+	switch(keyCode){
+		case 81:
+			rotateX(speedCam); break;
+		case 69:
+			rotateX(-speedCam); break;
+		case 87:
+			rotateY(speedCam); break;
+		case 83:
+			rotateY(-speedCam); break;
+		case 65:
+			rotateZ(speedCam); break;
+		case 68:
+			rotateZ(-speedCam); break;
+	}
+}
+
 function draw() {
 	background(51);
-	rotateY(radians(map(mouseX, 0, width, 0, 360)))
-	rotateX(radians(map(mouseY, 0, height, 0, 360)))
-	beginShape();
-	vertex(0, 0, 1)
-	vertex(0, 1, 0)
-	vertex(1, 0, 0)
-	endShape();
+
+
+	push();
+
+	if (keyIsPressed === true) {
+		// console.log(keyCode);
+		switch(keyCode){
+			case 119:
+				drotateX += speedCam; break;
+			case 115:
+				drotateX -= speedCam; break;
+			case 100:
+				drotateY += speedCam; break;
+			case 97:
+				drotateY -= speedCam; break;
+			case 113:
+				drotateZ += speedCam; break;
+			case 101:
+				drotateZ -= speedCam; break;
+		}
+	}
+
+	rotateX(radians(drotateX));
+	rotateY(radians(drotateY));
+	rotateZ(radians(drotateZ));
+
+	// rotateY(radians(map(mouseX, 0, width, 0, 360)))
+	// rotateX(radians(map(mouseY, 0, height, 0, 360)))
+	// beginShape();
+	// vertex(0, 0, 1)
+	// vertex(0, 1, 0)
+	// vertex(1, 0, 0)
+	// endShape();
 	calc()
 	viewModel()
-	// if (mouseIsPressed)	rotateZ(radians(map(mouseY, 0, height, 0, 360)))
-	// box();
-	// plane(50,50)
+	pop();
 }
