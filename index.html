@@ -8,8 +8,7 @@
     
     <script src="p5.js"></script>
     <script src="p5.dom.js"></script>
-    <!-- <script src="quicksettings.js" type="text/javascript"></script> -->
-    <!-- <script src="p5.gui.js" type="text/javascript"></script> -->
+    <!-- <script src="gogolLogo.js"></script> -->
     <script src="sketch.js"></script>
 
     <link rel="stylesheet" type="text/css" href="myc.css">
@@ -25,22 +24,22 @@
                     <p class="text-center"> Сдвиг</p>
                     <ul class="">
                         <li>x
-                            <input class="qs_range" type="range" id="xSlider" min="0" max="20" step="0.05"> <span id="xValue">val</span></li>
+                            <input class="qs_range" type="range" id="xSlider" value="0.01" min="0" max="20" step="0.05"> <span id="xValue">0.01</span></li>
                         <li>y
-                            <input class="qs_range" type="range" id="ySlider" min="0" max="20" step="0.05"> <span id="yValue">val</span></li>
+                            <input class="qs_range" type="range" id="ySlider" value="0" min="0" max="20" step="0.05"> <span id="yValue">0</span></li>
                         <li>z
-                            <input class="qs_range" type="range" id="zSlider" min="0" max="20" step="0.05"> <span id="zValue">val</span></li>
+                            <input class="qs_range" type="range" id="zSlider" value="0" min="0" max="20" step="0.05"> <span id="zValue">0</span></li>
                     </ul>
                 </div>
                 <div class="col-md-3 bg-secondary text-white">
                     <p class="text-center"> Углы</p>
                     <ul class="">
                         <li>a
-                            <input class="qs_range" type="range" id="aSlider" min="0" max="20" step="0.05"> <span id="aValue">val</span></li>
+                            <input class="qs_range" type="range" id="aSlider" value="10" min="0" max="20" step="0.05"> <span id="aValue">10</span></li>
                         <li>b
-                            <input class="qs_range" type="range" id="bSlider" min="0" max="20" step="0.05"> <span id="bValue">val</span></li>
+                            <input class="qs_range" type="range" id="bSlider" value="28" min="0" max="20" step="0.05"> <span id="bValue">28</span></li>
                         <li>c
-                            <input class="qs_range" type="range" id="cSlider" min="0" max="20" step="0.05"> <span id="cValue">val</span></li>
+                            <input class="qs_range" type="range" id="cSlider" value="2.6" min="0" max="20" step="0.05"> <span id="cValue">2.6</span></li>
                     </ul>
                 </div>
                 <div class="col-md-3 bg-warning">
@@ -48,13 +47,13 @@
                     <ul class="">
                         <li>
                             <div> dt : <span id="dtValue">0.01</span> </div>
-                            <input class="qs_range" type="range" id="dtSlider" min="0.001" max="1" step="0.001"> </li>
+                            <input class="qs_range" type="range" id="dtSlider" value="0.01" min="0.001" max="1" step="0.001"> </li>
                         <li>
-                            <div> scale : <span id="scaleValue">0.01</span> </div>
-                            <input class="qs_range" type="range" id="scaleSlider" min="1" max="20" step="1"> </li>
+                            <div> scale : <span id="scaleValue">1</span> </div>
+                            <input class="qs_range" type="range" id="scaleSlider" value="1" min="1" max="20" step="1"> </li>
                         <li>
-                          <div> points_amount : <span id="points_amountValue">0.01</span> </div>
-                          <input class="qs_range" type="range" id="points_amountSlider" min="1" max="20" step="1"> </li>
+                          <div> points_amount : <span id="points_amountValue">1000</span> </div>
+                          <input class="qs_range" type="range" id="points_amountSlider" value="1000" min="1" max="20" step="1"> </li>
                         <button class="btn btn-primary m-3" href="" id="insOnOff">Instance On\Off</button>
                     </ul>
                 </div>
@@ -62,11 +61,11 @@
                     <p class="text-center"> Камера </p>
                     <ul class="">
                         <li>drotateX
-                            <input class="qs_range" type="range" id="drotateXSlider" min="0" max="360" step="1"> <span id="drotateXValue">val</span></li>
+                            <input class="qs_range" type="range" id="drotateXSlider" value="0" min="0" max="360" step="1"> <span id="drotateXValue">0</span></li>
                         <li>drotateY
-                            <input class="qs_range" type="range" id="drotateYSlider" min="0" max="360" step="1"> <span id="drotateYValue">val</span></li>
+                            <input class="qs_range" type="range" id="drotateYSlider" value="0" min="0" max="360" step="1"> <span id="drotateYValue">0</span></li>
                         <li>drotateZ
-                            <input class="qs_range" type="range" id="drotateZSlider" min="0" max="360" step="1"> <span id="drotateZValue">val</span></li>
+                            <input class="qs_range" type="range" id="drotateZSlider" value="0" min="0" max="360" step="1"> <span id="drotateZValue">0</span></li>
                     </ul>
                 </div>
             </div>
