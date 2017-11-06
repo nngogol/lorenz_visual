@@ -21,12 +21,15 @@ let insOnOffButton;
 let insVal = false;
 let insTrigger = false;
 let insTrigger_Static = true;
-let insTrigger_Dynamic = true;
+let insTrigger_DynamicR = true;
+let insTrigger_DynamicLive = true;
 
 let controlWithMouse = false
 // private shit
 let speedCam = 5
 let points = []
+let draw_State = 1
+let pointMaker_dynamicR;
 
 function setup() {
 	createCanvas(500, 500, WEBGL);
@@ -37,6 +40,19 @@ function setup() {
 
 let see_All_Lorenz_Points = () => {
 	
+	// смена drotateX\Y\Z
+	control();
+
+	push();
+	if(controlWithMouse){
+		rotateY(map(mouseX,0,width,0,PI));
+		rotateX(map(mouseY,0,height,0,PI));
+	}else{
+		rotateX(radians(drotateX.value()));
+		rotateY(radians(drotateY.value()));
+	}
+	rotateZ(radians(drotateZ.value()));
+
 	background(51);
 	stroke(0)
 
@@ -55,7 +71,9 @@ let see_All_Lorenz_Points = () => {
 	    	hu = 0
 	}
 
-  endShape();
+	endShape();
+
+	pop();
 }
 
 let see_Coordinates = () => {
@@ -79,52 +97,67 @@ let see_Coordinates = () => {
 	endShape()
 }
 
+let doStatic = () => {
+
+	// Static
+	if (insTrigger_Static) {
+		x = .01;
+		y = 0;
+		z = 0;
+		add_New_ALL_Points();
+		insTrigger_Static=false;
+	}
+
+	see_All_Lorenz_Points();
+	see_Coordinates();
+}
+
+let makeingCals = (init_a = a.value(), init_b = b.value(), init_c = c.value(), init_dt = dt.value()) => {
+	let cals = () => {
+		for (let i = 0; i < 5; i++) {
+	
+		  	let dx = (init_a * (y - x))*init_dt
+		  	let dy = (x * (init_b - z) - y)*init_dt
+			let dz = (x * y - init_c * z)*init_dt
+			
+		  	x += dx
+		  	y += dy
+			z += dz
+			points.push(createVector(x,y,z));
+		}
+	}
+
+	return cals
+}
+
+let doDynaminR = () => {
+
+	// Dynamic
+	if (insTrigger_DynamicR) {
+		x = .01;
+		y = 0;
+		z = 0;
+		pointMaker_dynamicR = makeingCals()
+		insTrigger_DynamicR=false;
+	}
+
+	pointMaker_dynamicR()
+	see_All_Lorenz_Points();
+}
+
+let doDynaminLive = () => {
+
+}
+
 function draw(){
 	background(59)
-	control();
 
-	push();
-
-		if(controlWithMouse){
-			rotateY(map(mouseX,0,width,0,PI));
-			rotateX(map(mouseY,0,height,0,PI));
-		}else{
-			rotateX(radians(drotateX.value()));
-			rotateY(radians(drotateY.value()));
-		}
-		rotateZ(radians(drotateZ.value()));
-		
-		ellipsoid()	
-
-		if (insVal) {
-			// Static
-			if (insTrigger_Static) {
-				x = .01;
-				y = 0;
-				z = 0;
-				add_New_ALL_Points();
-				insTrigger_Static=false;
-			}
-
-			see_All_Lorenz_Points();
-			see_Coordinates();
-
-		}else{
-			// Dynamic
-
-			if (insTrigger_Dynamic) {
-				x = .01;
-				y = 0;
-				z = 0;
-				add_New_N_Points();
-				insTrigger_Dynamic=false;
-			}else{
-				add_New_N_Points();
-			}
-
-			see_All_Lorenz_Points();
-		}
-	pop();
+	switch(draw_State){
+		case 1: doStatic(); break;
+		case 2: doDynaminR(); break;
+		case 3: doDynaminLive(); break;
+		default: throw 'draw_State broken';
+	}
 }
 
 // для динамики
@@ -236,5 +269,7 @@ let htmlBinding = () => {
 	})
 	
 	// смена режима
-	insOnOffButton 			= select('#insOnOff')			  .mouseClicked(() => {insVal = !insVal; console.log(insVal)})
+	select('#Static')			  			.mouseClicked(() => {draw_State = 1})
+	select('#Dynamic_rerender')			  	.mouseClicked(() => {draw_State = 2})
+	select('#Dynamic_live')			  		.mouseClicked(() => {draw_State = 3})
 }
