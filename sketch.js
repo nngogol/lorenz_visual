@@ -1,175 +1,48 @@
 // ``SLIDERS``
-let aSlider;
-let bSlider;
-let cSlider;
-// let xSlider;
-// let ySlider;
-// let zSlider;
-let drotateXSlider;
-let drotateYSlider;
-let drotateZSlider;
+p5.disableFriendlyErrors = true;
 
-let scaleSlider;
-let dtSlider;
-let points_amountSlider;
+let a;
+let b;
+let c;
+let drotateX;
+let drotateY;
+let drotateZ;
 
-// ``VALUE``
-//........................
-let aValue;
-let bValue;
-let cValue;
-let xValue;
-let yValue;
-let zValue;
-let drotateXValue;
-let drotateYValue;
-let drotateZValue;
+let x = 0.01;
+let y = 0;
+let z = 0;
 
-let scaleValue;
-let dtValue;
-let points_amountValue;
-
-
-
-
-
-
-
+let scalea;
+let dt;
+let points_amount;
 
 // insOnOffButton
 let insOnOffButton;
 let insVal = false;
 let insTrigger = false;
-
 let insTrigger_Static = true;
 let insTrigger_Dynamic = true;
 
-
+let controlWithMouse = false
 // private shit
 let speedCam = 5
 let points = []
 
 function setup() {
 	createCanvas(500, 500, WEBGL);
+	controlWithMouse = false
 	htmlBinding()	
 	// colorMode(HSB);
 }
 
-function htmlBinding(){
-
-	/////////////////////////////////////////////////////
-	aValue 					= select('#aValue')
-	bValue 					= select('#bValue')
-	cValue 					= select('#cValue')
-	xValue 					= select('#xValue')
-	yValue 					= select('#yValue')
-	zValue 					= select('#zValue')
-	drotateXValue 			= select('#drotateXValue')
-	drotateYValue 			= select('#drotateYValue')
-	drotateZValue 			= select('#drotateZValue')
-
-	scaleValue 				= select('#scaleValue')
-	points_amountValue 		= select('#points_amountValue')
-	dtValue 				= select('#dtValue')
+let see_All_Lorenz_Points = () => {
 	
-	/////////////////////////////////////////////////////
-	aSlider 				= select('#aSlider')              .input(() => {
-		aValue.html(aSlider.value());
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
-	})
-	bSlider 				= select('#bSlider')              .input(() => {
-		bValue.html(bSlider.value());
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
-	})
-	cSlider 				= select('#cSlider')              .input(() => {
-		cValue.html(cSlider.value());
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
-	})
-	// xSlider 				= select('#xSlider')              .input(() => {
-	// 	xValue.html(xSlider.value());
-	// 	insTrigger_Static = true;
-	// 	insTrigger_Dynamic = true;
-	// })
-	// ySlider 				= select('#ySlider')              .input(() => {
-	// 	yValue.html(ySlider.value());
-	// 	insTrigger_Static = true;
-	// 	insTrigger_Dynamic = true;
-	// })
-	// zSlider 				= select('#zSlider')              .input(() => {
-	// 	zValue.html(zSlider.value());
-	// 	insTrigger_Static = true;
-	// 	insTrigger_Dynamic = true;
-	// })
-	drotateXSlider 			= select('#drotateXSlider')       .input(() => {
-		drotateXValue.html(drotateXSlider.value());
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
-	})
-	drotateYSlider 			= select('#drotateYSlider')       .input(() => {
-		drotateYValue.html(drotateYSlider.value());
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
-	})
-	drotateZSlider 			= select('#drotateZSlider')       .input(() => {
-		drotateZValue.html(drotateZSlider.value());
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
-	})
+	background(51);
+	stroke(0)
 
-	scaleSlider 			= select('#scaleSlider')          .input(() => {
-		scaleValue.html(scaleSlider.value());
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
-	})
-	points_amountSlider 	= select('#points_amountSlider')  .input(() => {
-		points_amountValue.html(points_amountSlider.value());
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
-	})
-	dtSlider 				= select('#dtSlider')             .input(() => {
-		dtValue.html(dtSlider.value());
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
-	})
-	
-	// смена режима
-	insOnOffButton 			= select('#insOnOff')			  .mouseClicked(() => {insVal = !insVal; console.log(insVal)})
-
-}
-
-function calc() {
-
-	if(insTrigger){
-		points = []
-		insTrigger = false
-	}
-
-	if (points.length > 2000) {
-		return
-	}
-	for (var i = 0; i < 50; i++) {
-		
-	  	let dx = (aValue * (yValue - xValue))*dtValue;
-	  	let dy = (xValue * (bValue - zValue) - yValue)*dtValue;
-		let dz = (xValue * yValue - cValue * zValue)*dtValue;
-		
-	  	xValue += dx;
-	  	yValue += dy;
-		zValue += dz;
-
-		points.push(createVector(xValue, yValue, zValue));
-
-	}
-}
-
-function see_All_Lorenz_Points() {
-	
 	beginShape();
 
-	scale(Number(scaleValue.html()));
+	scale(scalea.value());
 
 	let hu = 0;
 	for (var i = 0; i < points.length; i++) {
@@ -185,48 +58,72 @@ function see_All_Lorenz_Points() {
   endShape();
 }
 
+let see_Coordinates = () => {
 
+	beginShape()
+	stroke(255,0,0)
+	vertex(100,0,0)
+	vertex(0,0,0)
+	endShape()
 
+	beginShape()
+	stroke(0,255,0)
+	vertex(0,100,0)
+	vertex(0,0,0)
+	endShape()
 
-function draw() {
-	background(51);
+	beginShape()
+	stroke(0,0,255)
+	vertex(0,0,100)
+	vertex(0,0,0)
+	endShape()
+}
 
+function draw(){
+	background(59)
 	control();
 
 	push();
 
-		rotateX(radians(Number(drotateXValue.html())));
-		rotateY(radians(Number(drotateYValue.html())));
-		rotateZ(radians(Number(drotateZValue.html())));
+		if(controlWithMouse){
+			rotateY(map(mouseX,0,width,0,PI));
+			rotateX(map(mouseY,0,height,0,PI));
+		}else{
+			rotateX(radians(drotateX.value()));
+			rotateY(radians(drotateY.value()));
+		}
+		rotateZ(radians(drotateZ.value()));
 		
+		ellipsoid()	
 
 		if (insVal) {
-			// STATIC
-
+			// Static
 			if (insTrigger_Static) {
-				xValue.html(.01)
-				yValue.html(0)
-				zValue.html(0)
+				x = .01;
+				y = 0;
+				z = 0;
 				add_New_ALL_Points();
 				insTrigger_Static=false;
 			}
 
 			see_All_Lorenz_Points();
+			see_Coordinates();
 
 		}else{
 			// Dynamic
 
-			// make_rerenderBtn_visible();
-			// show_points()
+			if (insTrigger_Dynamic) {
+				x = .01;
+				y = 0;
+				z = 0;
+				add_New_N_Points();
+				insTrigger_Dynamic=false;
+			}else{
+				add_New_N_Points();
+			}
 
-			// if (insTrigger_Dynamic) {
-			// 	add_New_ALL_Points();
-			// 	insTrigger=false;
-			// }
-
-			// see_All_Lorenz_Points();v
+			see_All_Lorenz_Points();
 		}
-
 	pop();
 }
 
@@ -234,93 +131,110 @@ function draw() {
 function add_New_N_Points() {
 	for (let i = 0; i < 5; i++) {
 		
-	  	let dx = (aValue * (yValue - xValue))*dtValue;
-	  	let dy = (xValue * (bValue - zValue) - yValue)*dtValue;
-		let dz = (xValue * yValue - cValue * zValue)*dtValue;
+	  	let dx = (a.value() * (y - x))*dt.value();
+	  	let dy = (x * (b.value() - z) - y)*dt.value();
+		let dz = (x * y - c.value() * z)*dt.value();
 		
-	  	xValue += dx;
-	  	yValue += dy;
-		zValue += dz;
-
-		points.push(createVector(xValue, yValue, zValue));
-
+	  	x += dx
+	  	y += dy
+		z += dz
+		points.push(createVector(x,y,z));
 	}
 }
 
 // для статикы
 function add_New_ALL_Points() {
 	points = []
-	let ss = Number(points_amountValue.html())
+	let ss = points_amount.value()
+
 	for (let i = 0; i < ss; i++) {
 		
-	  	let dx = (Number(aValue.html()) * (Number(yValue.html()) - Number(xValue.html())))*Number(dtValue.html());
-	  	let dy = (Number(xValue.html()) * (Number(bValue.html()) - Number(zValue.html())) - Number(yValue.html()))*Number(dtValue.html());
-		let dz = (Number(xValue.html()) * Number(yValue.html()) - Number(cValue.html()) * Number(zValue.html()))*Number(dtValue.html());
+	  	let dx = (a.value() * (y - x))*dt.value();
+	  	let dy = (x * (b.value() - z) - y)*dt.value();
+		let dz = (x * y - c.value() * z)*dt.value();
 		
-	  	xValue.html(Number(xValue.html()) + dx);
-	  	yValue.html(Number(yValue.html()) + dy);
-		zValue.html(Number(zValue.html()) + dz);
-
-		points.push(createVector(Number(xValue.html()), Number(yValue.html()), Number(zValue.html())));
+	  	x += dx
+	  	y += dy
+		z += dz
+		points.push(createVector(x,y,z));
 
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function keyPressed() {	
-// 	switch(keyCode){
-// 		case 81:
-// 			rotateX(speedCam); break;
-// 		case 69:
-// 			rotateX(-speedCam); break;
-// 		case 87:
-// 			rotateY(speedCam); break;
-// 		case 83:
-// 			rotateY(-speedCam); break;
-// 		case 65:
-// 			rotateZ(speedCam); break;
-// 		case 68:
-// 			rotateZ(-speedCam); break;
-// 	}
-// }
-
-
-
-function control() {
+let control = () => {
 	if (keyIsPressed === true) {
-		// console.log(keyCode);
 		switch(keyCode){
-			case 119:
-				drotateXSlider.html(Number(drotateXSlider.html()) + speedCam); break;
-			case 115:
-				drotateXSlider.html(Number(drotateXSlider.html()) - speedCam); break;
-			case 100:
-				drotateYSlider.html(Number(drotateYSlider.html()) + speedCam); break;
-			case 97:
-				drotateYSlider.html(Number(drotateYSlider.html()) - speedCam); break;
-			case 113:
-				drotateZSlider.html(Number(drotateZSlider.html()) + speedCam); break;
-			case 101:
-				drotateZSlider.html(Number(drotateZSlider.html()) - speedCam); break;
+			case 119: 	drotateX.value(drotateX.value() + speedCam); break; //w
+			case 115: 	drotateX.value(drotateX.value() - speedCam); break; //s
+			case 100: 	drotateY.value(drotateY.value() + speedCam); break; //d
+			case  97: 	drotateY.value(drotateY.value() - speedCam); break; //a
+			case 113: 	drotateZ.value(drotateZ.value() + speedCam); break; //q
+			case 101: 	drotateZ.value(drotateZ.value() - speedCam); break; //e
+			case 99: 	scalea.value(scalea.value() - .1); break; // c
+			case 118: 	scalea.value(scalea.value() + .1); break; // v
 		}
 	}
+}
+
+let htmlBinding = () => {
+
+	a 				= select('#aSlider')
+	a.input(() => {
+		select("#aValue").value(a.value())
+		insTrigger_Static = true;
+		insTrigger_Dynamic = true;
+	})
+	b 				= select('#bSlider')
+	b.input(() => {
+		select('#bValue').value(b.value())
+		insTrigger_Static = true;
+		insTrigger_Dynamic = true;
+	})
+	c 				= select('#cSlider')
+	c.input(() => {
+		select('#cValue').value(c.value())
+		insTrigger_Static = true;
+		insTrigger_Dynamic = true;
+	})
+
+	drotateX 			= select('#drotateXSlider')
+	drotateX.input(() => {
+		select('#drotateXValue').value(drotateX.value())
+		insTrigger_Static = true;
+		insTrigger_Dynamic = true;
+	})
+	drotateY 			= select('#drotateYSlider')
+	drotateY.input(() => {
+		select('#drotateYValue').value(drotateY.value())
+		insTrigger_Static = true;
+		insTrigger_Dynamic = true;
+	})
+	drotateZ 			= select('#drotateZSlider')
+	drotateZ.input(() => {
+		select('#drotateZValue').value(drotateZ.value())
+		insTrigger_Static = true;
+		insTrigger_Dynamic = true;
+	})
+
+	scalea 			= select('#scaleSlider')
+	scalea.input(() => {
+		select('#scaleValue').value(scalea.value())
+		insTrigger_Static = true;
+		insTrigger_Dynamic = true;
+	})
+	points_amount 	= select('#points_amountSlider')
+	points_amount.input(() => {
+		select('#points_amountValue').value(points_amount.value())
+		insTrigger_Static = true;
+		insTrigger_Dynamic = true;
+	})
+	dt 				= select('#dtSlider')
+	dt.input(() => {
+		select('#dtValue').value(dt.value())
+		insTrigger_Static = true;
+		insTrigger_Dynamic = true;
+	})
+	
+	// смена режима
+	insOnOffButton 			= select('#insOnOff')			  .mouseClicked(() => {insVal = !insVal; console.log(insVal)})
 }
