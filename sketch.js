@@ -109,6 +109,9 @@ let makeingCals = (init_a = a.value(), init_b = b.value(), init_c = c.value(), i
 		  	y += dy
 			z += dz
 			points.push(createVector(x,y,z));
+			if (points.length > points_amount.value()) {
+				points.splice(0,5);
+			}
 		}
 	}
 
@@ -161,21 +164,6 @@ function draw(){
 		case 2: doDynaminR(); break;
 		case 3: doDynaminLive(); break;
 		default: throw 'draw_State broken';
-	}
-}
-
-// для динамики
-function add_New_N_Points() {
-	for (let i = 0; i < 5; i++) {
-		
-	  	let dx = (a.value() * (y - x))*dt.value();
-	  	let dy = (x * (b.value() - z) - y)*dt.value();
-		let dz = (x * y - c.value() * z)*dt.value();
-		
-	  	x += dx
-	  	y += dy
-		z += dz
-		points.push(createVector(x,y,z));
 	}
 }
 
