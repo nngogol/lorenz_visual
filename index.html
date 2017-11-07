@@ -15,84 +15,91 @@
     <!-- <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css"> </head> -->
 
     <body>
-        <div class="row">
-            <div class="col-6">
-                <div class="container">
-                    <h2><b>wasd+qe</b> - rotate</h2>
-                    <h2><b>cv</b> - scale</h2>
-                    <h2><b>r</b> - rerender (for 'Dynamic-rerender' option)</h2>
-                    <h2><b>m</b> - Mouse Camera \ WSAD Camera</h2>
-                    <h2><b>k</b> - Show Coordinates</h2>
-                    <h2><b>12-45-78 numpad</b> a\b\c params</h2>
-                    <button class="btn btn-primary m-2" id="Static">Static</button>
-                    <button class="btn btn-primary m-2" id="Dynamic_rerender">Dynamic-rerender</button>
-                    <button class="btn btn-primary m-2" id="Dynamic_live">Dynamic-live</button>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="py-2">
+        <div class="headPart">
+            <a class="btn btn-primary" href="#contorlingPage" data-toggle="collapse">Show Meny
+            </a>
+            <div class="collapse" style="background-image: url('paper.png');" id="contorlingPage" >
+                <div class="row">
+                <div class="col-6 text-white">
                     <div class="container">
-                        <div class="row">
-                            <div class="col-md-3 text-light bg-primary">
-                                <p class="text-center"> Сдвиг</p>
-                                <ul class="">
-                                    <div class="text-center"> x
-                                        <input type="number" id="xValue">
-                                        <input class="qs_range" type="range" id="xSlider" value="0.01" min="0" max="20" step="0.05"> </div>
-                                    <div class="text-center">y
-                                        <input type="number" id="yValue">
-                                        <input class="qs_range" type="range" id="ySlider" value="0" min="0" max="20" step="0.05"> </div>
-                                    <div class="text-center">z
-                                        <input type="number" id="zValue">
-                                        <input class="qs_range" type="range" id="zSlider" value="0" min="0" max="20" step="0.05"> </div>
-                                </ul>
-                            </div>
-                            <div class="col-md-3 bg-secondary text-white">
-                                <p class="text-center"> Углы</p>
-                                <ul class="">
-                                    <div class="text-center"> a
-                                        <input type="number" id="aValue">
-                                        <input class="qs_range" type="range" id="aSlider" value="10" min="1" max="20" step="0.05"> </div>
-                                    <div class="text-center"> b
-                                        <input type="number" id="bValue">
-                                        <input class="qs_range" type="range" id="bSlider" value="28" min="1" max="30" step="0.05"> </div>
-                                    <div class="text-center"> c
-                                        <input type="number" id="cValue">
-                                        <input class="qs_range" type="range" id="cSlider" value="2.6" min="1" max="20" step="0.05"> </div>
-                                </ul>
-                            </div>
-                            <div class="col-md-3 bg-warning">
-                                <p class="text-center"> Параметры сцены</p>
-                                <ul class="">
-                                    <div class="text-center"> dt
-                                        <input type="number" id="dtValue">
-                                        <input class="qs_range" type="range" id="dtSlider" value="0.01" min="0.001" max="1" step="0.001"> </div>
-                                    <div class="text-center"> scale
-                                        <input type="number" id="scaleValue">
-                                        <input class="qs_range" type="range" id="scaleSlider" value="6.3" min="1" max="20" step="0.1"> </div>
-                                    <div class="text-center"> points_amount:
-                                        <input type="number" id="points_amountValue">
-                                        <input class="qs_range" type="range" id="points_amountSlider" value="2000" min="1000" max="5000" step="1"> </div>
-                                </ul>
-                            </div>
-                            <div class="col-md-3 text-white bg-danger">
-                                <p class="text-center"> Камера </p>
-                                <ul class="">
-                                    <div class="text-center"> drotateX
-                                        <input type="number" id="drotateXValue">
-                                        <input class="qs_range" type="range" id="drotateXSlider" value="766" min="0" max="1080" step="1"> </div>
-                                    <div class="text-center"> drotateY
-                                        <input type="number" id="drotateYValue">
-                                        <input class="qs_range" type="range" id="drotateYSlider" value="361" min="0" max="1080" step="1"> </div>
-                                    <div class="text-center"> drotateZ
-                                        <input type="number" id="drotateZValue">
-                                        <input class="qs_range" type="range" id="drotateZSlider" value="388" min="0" max="1080" step="1"> </div>
-                                </ul>
+                        <h2><b>wasd+qe</b> - rotate</h2>
+                        <h2><b>cv</b> - scale</h2>
+                        <h2><b>r</b> - rerender (for 'Dynamic-rerender' option)</h2>
+                        <h2><b>m</b> - Mouse Camera \ WSAD Camera</h2>
+                        <h2><b>k</b> - Show Coordinates</h2>
+                        <h2><b>12-45-78 numpad</b> a\b\c params</h2>
+                        <button class="btn btn-primary m-2" id="Static">Static</button>
+                        <button class="btn btn-primary m-2" id="Dynamic_rerender">Dynamic-rerender</button>
+                        <button class="btn btn-primary m-2" id="Dynamic_live">Dynamic-live</button>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="py-2">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-3 text-light bg-primary">
+                                    <p class="text-center"> Сдвиг</p>
+                                    <ul class="">
+                                        <div class="text-center"> x
+                                            <input type="number" id="xValue">
+                                            <input class="qs_range" type="range" id="xSlider" value="0.01" min="0" max="20" step="0.05"> </div>
+                                        <div class="text-center">y
+                                            <input type="number" id="yValue">
+                                            <input class="qs_range" type="range" id="ySlider" value="0" min="0" max="20" step="0.05"> </div>
+                                        <div class="text-center">z
+                                            <input type="number" id="zValue">
+                                            <input class="qs_range" type="range" id="zSlider" value="0" min="0" max="20" step="0.05"> </div>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3 bg-secondary text-white">
+                                    <p class="text-center"> Углы</p>
+                                    <ul class="">
+                                        <div class="text-center"> a
+                                            <input type="number" id="aValue">
+                                            <input class="qs_range" type="range" id="aSlider" value="10" min="1" max="20" step="0.05"> </div>
+                                        <div class="text-center"> b
+                                            <input type="number" id="bValue">
+                                            <input class="qs_range" type="range" id="bSlider" value="28" min="1" max="30" step="0.05"> </div>
+                                        <div class="text-center"> c
+                                            <input type="number" id="cValue">
+                                            <input class="qs_range" type="range" id="cSlider" value="2.6" min="1" max="20" step="0.05"> </div>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3 bg-warning">
+                                    <p class="text-center"> Параметры сцены</p>
+                                    <ul class="">
+                                        <div class="text-center"> dt
+                                            <input type="number" id="dtValue">
+                                            <input class="qs_range" type="range" id="dtSlider" value="0.01" min="0.001" max="1" step="0.001"> </div>
+                                        <div class="text-center"> scale
+                                            <input type="number" id="scaleValue">
+                                            <input class="qs_range" type="range" id="scaleSlider" value="6.3" min="1" max="20" step="0.1"> </div>
+                                        <div class="text-center"> points_amount:
+                                            <input type="number" id="points_amountValue">
+                                            <input class="qs_range" type="range" id="points_amountSlider" value="2000" min="1000" max="5000" step="1"> </div>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3 text-white bg-danger">
+                                    <p class="text-center"> Камера </p>
+                                    <ul class="">
+                                        <div class="text-center"> drotateX
+                                            <input type="number" id="drotateXValue">
+                                            <input class="qs_range" type="range" id="drotateXSlider" value="766" min="0" max="1080" step="1"> </div>
+                                        <div class="text-center"> drotateY
+                                            <input type="number" id="drotateYValue">
+                                            <input class="qs_range" type="range" id="drotateYSlider" value="361" min="0" max="1080" step="1"> </div>
+                                        <div class="text-center"> drotateZ
+                                            <input type="number" id="drotateZValue">
+                                            <input class="qs_range" type="range" id="drotateZSlider" value="388" min="0" max="1080" step="1"> </div>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+            
         </div>
         <div id="can" style="float:left;"> </div>
         <script src="lib/jq.js"></script>

@@ -33,7 +33,7 @@ let draw_State = 3
 let pointMaker_dynamicR;
 
 function setup() {
-	let can = createCanvas(1500, 600, WEBGL);
+	let can = createCanvas(1500, 800, WEBGL);
 	can.parent(select('#can'))
 	htmlBinding()	
 	colorMode(HSB);
