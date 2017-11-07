@@ -48,12 +48,11 @@ let see_All_Lorenz_Points = () => {
 		rotateY(map(mouseX,0,width,0,PI));
 		rotateX(map(mouseY,0,height,0,PI));
 	}else{
-		rotateX(radians(drotateX.value()));
-		rotateY(radians(drotateY.value()));
+		rotateY(radians(drotateX.value()));
+		rotateX(radians(drotateY.value()));
 	}
 	rotateZ(radians(drotateZ.value()));
 
-	background(51);
 	stroke(0)
 
 	beginShape();
@@ -95,21 +94,7 @@ let see_Coordinates = () => {
 	vertex(0,0,100)
 	vertex(0,0,0)
 	endShape()
-}
 
-let doStatic = () => {
-
-	// Static
-	if (insTrigger_Static) {
-		x = .01;
-		y = 0;
-		z = 0;
-		add_New_ALL_Points();
-		insTrigger_Static=false;
-	}
-
-	see_All_Lorenz_Points();
-	see_Coordinates();
 }
 
 let makeingCals = (init_a = a.value(), init_b = b.value(), init_c = c.value(), init_dt = dt.value()) => {
@@ -130,10 +115,30 @@ let makeingCals = (init_a = a.value(), init_b = b.value(), init_c = c.value(), i
 	return cals
 }
 
+
+let doStatic = () => {
+	background(250,0,0,20)
+
+	// Static
+	if (insTrigger_Static) {
+		x = .01;
+		y = 0;
+		z = 0;
+		add_New_ALL_Points();
+		insTrigger_Static=false;
+	}
+
+	see_All_Lorenz_Points();
+	see_Coordinates();
+}
+
+
 let doDynaminR = () => {
+	background(0,250,0,60)
 
 	// Dynamic
 	if (insTrigger_DynamicR) {
+		points = []
 		x = .01;
 		y = 0;
 		z = 0;
@@ -146,11 +151,10 @@ let doDynaminR = () => {
 }
 
 let doDynaminLive = () => {
-
+	background(0,0,250,60)
 }
 
 function draw(){
-	background(59)
 
 	switch(draw_State){
 		case 1: doStatic(); break;
@@ -205,6 +209,9 @@ let control = () => {
 			case 101: 	drotateZ.value(drotateZ.value() - speedCam); break; //e
 			case 99: 	scalea.value(scalea.value() - .1); break; // c
 			case 118: 	scalea.value(scalea.value() + .1); break; // v
+			case 114: 	insTrigger_DynamicR=true; break; // r
+			case 109: 	controlWithMouse=!controlWithMouse; break; // r
+			
 		}
 	}
 }
@@ -270,6 +277,6 @@ let htmlBinding = () => {
 	
 	// смена режима
 	select('#Static')			  			.mouseClicked(() => {draw_State = 1})
-	select('#Dynamic_rerender')			  	.mouseClicked(() => {draw_State = 2})
+	select('#Dynamic_rerender')			  	.mouseClicked(() => {draw_State = 2; insTrigger_DynamicR=true;})
 	select('#Dynamic_live')			  		.mouseClicked(() => {draw_State = 3})
 }
