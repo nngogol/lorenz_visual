@@ -23,17 +23,18 @@ let insTrigger = false;
 let insTrigger_Static = true;
 let insTrigger_DynamicR = true;
 let insTrigger_DynamicLive = true;
+let ShowCoordinates = true
 
 let controlWithMouse = false
 // private shit
 let speedCam = 5
 let points = []
-let draw_State = 1
+let draw_State = 3
 let pointMaker_dynamicR;
 
 function setup() {
-	createCanvas(500, 500, WEBGL);
-	controlWithMouse = false
+	let can = createCanvas(1500, 600, WEBGL);
+	can.parent(select('#can'))
 	htmlBinding()	
 	// colorMode(HSB);
 }
@@ -43,34 +44,43 @@ let see_All_Lorenz_Points = () => {
 	// смена drotateX\Y\Z
 	control();
 
+	// enable 3 line from (0,0,0)
+	
+
 	push();
-	if(controlWithMouse){
-		rotateY(map(mouseX,0,width,0,PI));
-		rotateX(map(mouseY,0,height,0,PI));
-	}else{
-		rotateY(radians(drotateX.value()));
-		rotateX(radians(drotateY.value()));
-	}
-	rotateZ(radians(drotateZ.value()));
 
-	stroke(0)
+		// scale
+		scale(scalea.value());
 
-	beginShape();
+		// rotate
+		if(controlWithMouse){
+			rotateY(map(mouseX,0,width,0,PI));
+			rotateX(map(mouseY,0,height,0,PI));
+			rotateZ(radians(drotateZ.value()));
+		}else{
+			rotateY(radians(drotateX.value()));
+			rotateX(radians(drotateY.value()));
+			rotateZ(radians(drotateZ.value()));
+		}
 
-	scale(scalea.value());
+		// coordinatel
+		if(ShowCoordinates)	see_Coordinates();
 
-	let hu = 0;
-	for (var i = 0; i < points.length; i++) {
-		fill(hu, 255, 255);
-		let v = points[i];
-		vertex(v.x, v.y, v.z);
 
-	    hu += 0.1;
-	    if (hu > 255)
-	    	hu = 0
-	}
+		// your model with vertex()
+		beginShape();
+		stroke(0)
+		let hu = 0;
+		for (var i = 0; i < points.length; i++) {
+			fill(hu, 255, 255);
+			let v = points[i];
+			vertex(v.x, v.y, v.z);
 
-	endShape();
+		    hu += 0.1;
+		    if (hu > 255)
+		    	hu = 0
+		}
+		endShape();
 
 	pop();
 }
@@ -120,6 +130,7 @@ let makeingCals = (init_a = a.value(), init_b = b.value(), init_c = c.value(), i
 
 
 let doStatic = () => {
+
 	background(250,0,0,20)
 
 	// Static
@@ -132,11 +143,11 @@ let doStatic = () => {
 	}
 
 	see_All_Lorenz_Points();
-	see_Coordinates();
 }
 
 
 let doDynaminR = () => {
+
 	background(0,250,0,60)
 
 	// Dynamic
@@ -154,7 +165,36 @@ let doDynaminR = () => {
 }
 
 let doDynaminLive = () => {
+	//todo
 	background(0,0,250,60)
+
+	// Dynamic
+	if (insTrigger_DynamicLive) {
+		points = []
+		x = .01;
+		y = 0;
+		z = 0;
+		insTrigger_DynamicLive=false;
+	}
+
+	for (let i = 0; i < 1; i++) {
+	
+	  	let dx = (a.value() * (y - x))*dt.value()
+	  	let dy = (x * (b.value() - z) - y)*dt.value()
+		let dz = (x * y - c.value() * z)*dt.value()
+		
+	  	x += dx
+	  	y += dy
+	  	z += dz
+
+		points.push(createVector(x,y,z));
+
+		if (points.length > points_amount.value()) {
+			points.splice(0,1);
+		}
+	}
+
+	see_All_Lorenz_Points();
 }
 
 function draw(){
@@ -186,19 +226,36 @@ function add_New_ALL_Points() {
 	}
 }
 
+function keyPressed(){
+	// use keyPressed() when you need to switch something like button
+	// coz control() are launch every frame,
+	// so u will switch your btns very fast
+	switch(keyCode){
+		case 82: 	insTrigger_DynamicR=true; 						break; // r
+		case 77: 	controlWithMouse=!controlWithMouse; 			break; // m
+		case 75:	ShowCoordinates = !ShowCoordinates; 			break; // k
+	}
+}
+
 let control = () => {
 	if (keyIsPressed === true) {
 		switch(keyCode){
-			case 119: 	drotateX.value(drotateX.value() + speedCam); break; //w
-			case 115: 	drotateX.value(drotateX.value() - speedCam); break; //s
-			case 100: 	drotateY.value(drotateY.value() + speedCam); break; //d
-			case  97: 	drotateY.value(drotateY.value() - speedCam); break; //a
-			case 113: 	drotateZ.value(drotateZ.value() + speedCam); break; //q
-			case 101: 	drotateZ.value(drotateZ.value() - speedCam); break; //e
-			case 99: 	scalea.value(scalea.value() - .1); break; // c
-			case 118: 	scalea.value(scalea.value() + .1); break; // v
-			case 114: 	insTrigger_DynamicR=true; break; // r
-			case 109: 	controlWithMouse=!controlWithMouse; break; // r
+			case 119: 	drotateY.value(drotateY.value() + speedCam); 	break; //w
+			case 115: 	drotateY.value(drotateY.value() - speedCam); 	break; //s
+			case 100: 	drotateX.value(drotateX.value() + speedCam); 	break; //d
+			case  97: 	drotateX.value(drotateX.value() - speedCam); 	break; //a
+			case 113: 	drotateZ.value(drotateZ.value() + speedCam); 	break; //q
+			case 101: 	drotateZ.value(drotateZ.value() - speedCam); 	break; //e
+			case 99: 	scalea.value(scalea.value() - .1); 				break; // c
+			case 118: 	scalea.value(scalea.value() + .1); 				break; // v
+
+			//                                             numpad
+			case 49: 	a.value(a.value() + .1); break; //   1
+			case 50: 	a.value(a.value() - .1); break; //   2
+			case 52:    b.value(b.value() + .1); break; //   4
+			case 53:    b.value(b.value() - .1); break; //   5
+			case 55:    c.value(c.value() + .1); break; //   6
+			case 56:    c.value(c.value() - .1); break; //   7
 			
 		}
 	}
@@ -206,62 +263,82 @@ let control = () => {
 
 let htmlBinding = () => {
 
+	// optimization
+	let aVal 				= select("#aValue")
+	let bVal 				= select('#bValue')
+	let cVal 				= select('#cValue')
+	let drotateXVal 		= select('#drotateXValue')
+	let drotateYVal 		= select('#drotateYValue')
+	let drotateZVal 		= select('#drotateZValue')
+	let scaleVal 			= select('#scaleValue')
+	let points_amountVal 	= select('#points_amountValue')
+	let dtVal 				= select('#dtValue')
+
 	a 				= select('#aSlider')
 	a.input(() => {
-		select("#aValue").value(a.value())
+		aVal.value(a.value())
 		insTrigger_Static = true;
 		insTrigger_Dynamic = true;
 	})
+	aVal.value(a.value())
 	b 				= select('#bSlider')
 	b.input(() => {
-		select('#bValue').value(b.value())
+		bVal.value(b.value())
 		insTrigger_Static = true;
 		insTrigger_Dynamic = true;
 	})
+	bVal.value(b.value())
 	c 				= select('#cSlider')
 	c.input(() => {
-		select('#cValue').value(c.value())
+		cVal.value(c.value())
 		insTrigger_Static = true;
 		insTrigger_Dynamic = true;
 	})
+	cVal.value(c.value())
 
 	drotateX 			= select('#drotateXSlider')
 	drotateX.input(() => {
-		select('#drotateXValue').value(drotateX.value())
+		drotateXVal.value(drotateX.value())
 		insTrigger_Static = true;
 		insTrigger_Dynamic = true;
 	})
+	drotateXVal.value(drotateX.value())
 	drotateY 			= select('#drotateYSlider')
 	drotateY.input(() => {
-		select('#drotateYValue').value(drotateY.value())
+		drotateYVal.value(drotateY.value())
 		insTrigger_Static = true;
 		insTrigger_Dynamic = true;
 	})
+	drotateYVal.value(drotateY.value())
 	drotateZ 			= select('#drotateZSlider')
 	drotateZ.input(() => {
-		select('#drotateZValue').value(drotateZ.value())
+		drotateZVal.value(drotateZ.value())
 		insTrigger_Static = true;
 		insTrigger_Dynamic = true;
 	})
+	drotateZVal.value(drotateZ.value())
 
 	scalea 			= select('#scaleSlider')
 	scalea.input(() => {
-		select('#scaleValue').value(scalea.value())
+		scaleVal.value(scalea.value())
 		insTrigger_Static = true;
 		insTrigger_Dynamic = true;
 	})
+	scaleVal.value(scalea.value())
 	points_amount 	= select('#points_amountSlider')
 	points_amount.input(() => {
-		select('#points_amountValue').value(points_amount.value())
+		points_amountVal.value(points_amount.value())
 		insTrigger_Static = true;
 		insTrigger_Dynamic = true;
 	})
+	points_amountVal.value(points_amount.value())
 	dt 				= select('#dtSlider')
 	dt.input(() => {
-		select('#dtValue').value(dt.value())
+		dtVal.value(dt.value())
 		insTrigger_Static = true;
 		insTrigger_Dynamic = true;
 	})
+	dtVal.value(dt.value())
 	
 	// смена режима
 	select('#Static')			  			.mouseClicked(() => {draw_State = 1})
