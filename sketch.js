@@ -36,10 +36,10 @@ function setup() {
 	let can = createCanvas(1500, 600, WEBGL);
 	can.parent(select('#can'))
 	htmlBinding()	
-	// colorMode(HSB);
+	colorMode(HSB);
 }
 
-let see_All_Lorenz_Points = () => {
+let see_All_Lorenz_Points = (colorr) => {
 	
 	// смена drotateX\Y\Z
 	control();
@@ -49,14 +49,16 @@ let see_All_Lorenz_Points = () => {
 
 	push();
 
+		background(colorr)
+
 		// scale
 		scale(scalea.value());
 
 		// rotate
 		if(controlWithMouse){
-			rotateY(map(mouseX,0,width,0,PI));
-			rotateX(map(mouseY,0,height,0,PI));
-			rotateZ(radians(drotateZ.value()));
+			rotateY(map(mouseX,0,width,0,PI*3));
+			rotateZ(map(mouseY,0,height,0,PI*3));
+			rotateX(radians(drotateZ.value()));
 		}else{
 			rotateY(radians(drotateX.value()));
 			rotateX(radians(drotateY.value()));
@@ -69,10 +71,12 @@ let see_All_Lorenz_Points = () => {
 
 		// your model with vertex()
 		beginShape();
-		stroke(0)
+		noStroke()
 		let hu = 0;
 		for (var i = 0; i < points.length; i++) {
-			fill(hu, 255, 255);
+			
+			fill(hu, 82, 50);
+			
 			let v = points[i];
 			vertex(v.x, v.y, v.z);
 
@@ -87,24 +91,27 @@ let see_All_Lorenz_Points = () => {
 
 let see_Coordinates = () => {
 
+	push()
+
 	beginShape()
-	stroke(255,0,0)
-	vertex(100,0,0)
+	stroke(360, 100, 50)
+	vertex(10,0,0)
 	vertex(0,0,0)
 	endShape()
 
 	beginShape()
-	stroke(0,255,0)
-	vertex(0,100,0)
+	stroke(120, 100, 50)
+	vertex(0,10,0)
 	vertex(0,0,0)
 	endShape()
 
 	beginShape()
-	stroke(0,0,255)
-	vertex(0,0,100)
+	stroke(240, 100, 50)
+	vertex(0,0,10)
 	vertex(0,0,0)
 	endShape()
 
+	pop()
 }
 
 let makeingCals = (init_a = a.value(), init_b = b.value(), init_c = c.value(), init_dt = dt.value()) => {
@@ -131,8 +138,6 @@ let makeingCals = (init_a = a.value(), init_b = b.value(), init_c = c.value(), i
 
 let doStatic = () => {
 
-	background(250,0,0,20)
-
 	// Static
 	if (insTrigger_Static) {
 		x = .01;
@@ -142,14 +147,11 @@ let doStatic = () => {
 		insTrigger_Static=false;
 	}
 
-	see_All_Lorenz_Points();
+	see_All_Lorenz_Points(color(250,0,0,20));
 }
 
 
 let doDynaminR = () => {
-
-	background(0,250,0,60)
-
 	// Dynamic
 	if (insTrigger_DynamicR) {
 		points = []
@@ -161,13 +163,10 @@ let doDynaminR = () => {
 	}
 
 	pointMaker_dynamicR()
-	see_All_Lorenz_Points();
+	see_All_Lorenz_Points(color(0,250,0));
 }
 
 let doDynaminLive = () => {
-	//todo
-	background(0,0,250,60)
-
 	// Dynamic
 	if (insTrigger_DynamicLive) {
 		points = []
@@ -194,7 +193,7 @@ let doDynaminLive = () => {
 		}
 	}
 
-	see_All_Lorenz_Points();
+	see_All_Lorenz_Points(color(0,0,250));
 }
 
 function draw(){
