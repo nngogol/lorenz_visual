@@ -45,8 +45,6 @@ let see_All_Lorenz_Points = (colorr) => {
 	// смена drotateX\Y\Z
 	control();
 
-	// enable 3 line from (0,0,0)
-	
 
 	push();
 
@@ -90,16 +88,29 @@ let see_All_Lorenz_Points = (colorr) => {
 
 		// your model with vertex()
 		beginShape();
-		noFill()
-		stroke(300, 100, 65)
+		noFill();
 		strokeWeight(2)
 		let hu = 0;
-		for (var i = 0; i < points.length; i++) {
-			
-			stroke(hu, 82, 50);
+		// points.forEach( (el,ind)=>
+		// {
+			// let v = el;
+
+			// vertex(v['point'].x, v['point'].y, v['point'].z);
+
+			// stroke(v['color'], 82, 50);
+
+		 //    hu += 0.1;
+		 //    if (hu > 255)
+		 //    	hu = 0
+		// })
+
+		for (var i = points.length - 1; i >= 0; i--) {
 			
 			let v = points[i];
-			vertex(v.x, v.y, v.z);
+
+			vertex(v['point'].x, v['point'].y, v['point'].z);
+
+			stroke(v['color'], 82, 50);
 
 		    hu += 0.1;
 		    if (hu > 255)
@@ -146,7 +157,7 @@ let makeingCals = (init_a = a.value(), init_b = b.value(), init_c = c.value(), i
 		  	x += dx
 		  	y += dy
 			z += dz
-			points.push(createVector(x,y,z));
+			points.push({'point' : createVector(x,y,z), 'color': frameCount+0 });
 			if (points.length > points_amount.value()) {
 				points.splice(0,5);
 			}
@@ -161,6 +172,7 @@ let doStatic = () => {
 
 	// Static
 	if (insTrigger_Static) {
+		points = []
 		x = .01;
 		y = 0;
 		z = 0;
@@ -207,7 +219,7 @@ let doDynaminLive = () => {
 	  	y += dy
 	  	z += dz
 
-		points.push(createVector(x,y,z));
+		points.push({'point' : createVector(x,y,z), 'color': frameCount+0 });
 
 		if (points.length > points_amount.value()) {
 			points.splice(0,1);
@@ -241,7 +253,7 @@ function add_New_ALL_Points() {
 	  	x += dx
 	  	y += dy
 		z += dz
-		points.push(createVector(x,y,z));
+		points.push({'point' : createVector(x,y,z), 'color': frameCount+0 });
 
 	}
 }
@@ -252,10 +264,10 @@ function keyPressed(){
 	// coz control() are launch every frame,
 	// so u will switch your btns very fast
 	switch(keyCode){
-		case 82: 	insTrigger_DynamicR=true; 						break; // r
-		case 77: 	controlWithMouse=!controlWithMouse; 			break; // m
-		case 75:	ShowCoordinates = !ShowCoordinates; 			break; // k
-		case 76:	autoMove = !autoMove;				 			break; // l
+		case 82: 	insTrigger_DynamicR=true; insTrigger_DynamicLive=true;		break; // r
+		case 77: 	controlWithMouse=!controlWithMouse; 						break; // m
+		case 75:	ShowCoordinates = !ShowCoordinates; 						break; // k
+		case 76:	autoMove = !autoMove;				 						break; // l
 	}
 }
 
@@ -321,30 +333,30 @@ let htmlBinding = () => {
 	drotateX 			= select('#drotateXSlider')
 	drotateX.input(() => {
 		drotateXVal.value(drotateX.value())
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
+		// insTrigger_Static = true;
+		// insTrigger_Dynamic = true;
 	})
 	drotateXVal.value(drotateX.value())
 	drotateY 			= select('#drotateYSlider')
 	drotateY.input(() => {
 		drotateYVal.value(drotateY.value())
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
+		// insTrigger_Static = true;
+		// insTrigger_Dynamic = true;
 	})
 	drotateYVal.value(drotateY.value())
 	drotateZ 			= select('#drotateZSlider')
 	drotateZ.input(() => {
 		drotateZVal.value(drotateZ.value())
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
+		// insTrigger_Static = true;
+		// insTrigger_Dynamic = true;
 	})
 	drotateZVal.value(drotateZ.value())
 
 	scalea 			= select('#scaleSlider')
 	scalea.input(() => {
 		scaleVal.value(scalea.value())
-		insTrigger_Static = true;
-		insTrigger_Dynamic = true;
+		// insTrigger_Static = true;
+		// insTrigger_Dynamic = true;
 	})
 	scaleVal.value(scalea.value())
 	points_amount 	= select('#points_amountSlider')
@@ -360,10 +372,13 @@ let htmlBinding = () => {
 		insTrigger_Static = true;
 		insTrigger_Dynamic = true;
 	})
-	dtVal.value(dt.value())
+
+	// setting up dt in javaScript!!!!!!!!!!
+	dt.value(0.01)
+	dtVal.value(0.01)
 	
 	// смена режима
 	select('#Static')			  			.mouseClicked(() => {draw_State = 1})
-	select('#Dynamic_rerender')			  	.mouseClicked(() => {draw_State = 2; insTrigger_DynamicR=true;})
-	select('#Dynamic_live')			  		.mouseClicked(() => {draw_State = 3})
+	select('#Dynamic_rerender')			  	.mouseClicked(() => {draw_State = 2; insTrigger_DynamicR=true;insTrigger_DynamicLive=true;})
+	select('#Dynamic_live')			  		.mouseClicked(() => {draw_State = 3; insTrigger_DynamicR=true;insTrigger_DynamicLive=true;})
 }
