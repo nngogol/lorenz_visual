@@ -23,13 +23,14 @@ let insTrigger = false;
 let insTrigger_Static = true;
 let insTrigger_DynamicR = true;
 let insTrigger_DynamicLive = true;
-let ShowCoordinates = true
+let ShowCoordinates = false
+let autoMove = false
 
 let controlWithMouse = false
 // private shit
 let speedCam = 5
 let points = []
-let draw_State = 3
+let draw_State = 2
 let pointMaker_dynamicR;
 
 function setup() {
@@ -54,15 +55,33 @@ let see_All_Lorenz_Points = (colorr) => {
 		// scale
 		scale(scalea.value());
 
-		// rotate
-		if(controlWithMouse){
-			rotateY(map(mouseX,0,width,0,PI*3));
-			rotateZ(map(mouseY,0,height,0,PI*3));
-			rotateX(radians(drotateZ.value()));
+		if(autoMove){
+			// rotate
+			if(controlWithMouse){
+				rotateY(map(mouseX,0,width,0,PI*3));
+				rotateZ(map(mouseY,0,height,0,PI*3));
+				rotateX(radians(drotateZ.value()));
+			}else{
+				rotateY(radians(drotateX.value()));
+				rotateX(radians(drotateY.value()));
+			}
 		}else{
-			rotateY(radians(drotateX.value()));
-			rotateX(radians(drotateY.value()));
-			rotateZ(radians(drotateZ.value()));
+			// console.log(sin(frameCount*.01))
+			rotateX(radians(sin(frameCount*.02)));
+
+			rotateZ(
+				radians(
+					frameCount*.2
+					)
+				);
+
+			rotateY(
+				radians(
+					frameCount*map(mouseX, 0, width, .5, 1.0)
+					)
+				);
+
+			rotateX(radians(drotateZ.value()));
 		}
 
 		// coordinatel
@@ -71,11 +90,13 @@ let see_All_Lorenz_Points = (colorr) => {
 
 		// your model with vertex()
 		beginShape();
-		noStroke()
+		noFill()
+		stroke(300, 100, 65)
+		strokeWeight(2)
 		let hu = 0;
 		for (var i = 0; i < points.length; i++) {
 			
-			fill(hu, 82, 50);
+			stroke(hu, 82, 50);
 			
 			let v = points[i];
 			vertex(v.x, v.y, v.z);
@@ -226,6 +247,7 @@ function add_New_ALL_Points() {
 }
 
 function keyPressed(){
+	// console.log(keyCode)
 	// use keyPressed() when you need to switch something like button
 	// coz control() are launch every frame,
 	// so u will switch your btns very fast
@@ -233,6 +255,7 @@ function keyPressed(){
 		case 82: 	insTrigger_DynamicR=true; 						break; // r
 		case 77: 	controlWithMouse=!controlWithMouse; 			break; // m
 		case 75:	ShowCoordinates = !ShowCoordinates; 			break; // k
+		case 76:	autoMove = !autoMove;				 			break; // l
 	}
 }
 
