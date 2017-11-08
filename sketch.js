@@ -65,11 +65,11 @@ let see_All_Lorenz_Points = (colorr) => {
 			}
 		}else{
 			// console.log(sin(frameCount*.01))
-			rotateX(radians(sin(frameCount*.02)));
+			rotateX(radians(sin(frameCount*.002)));
 
 			rotateZ(
 				radians(
-					frameCount*.2
+					frameCount*.02
 					)
 				);
 
@@ -172,7 +172,6 @@ let doStatic = () => {
 
 	// Static
 	if (insTrigger_Static) {
-		points = []
 		x = .01;
 		y = 0;
 		z = 0;
@@ -378,7 +377,19 @@ let htmlBinding = () => {
 	dtVal.value(0.01)
 	
 	// смена режима
-	select('#Static')			  			.mouseClicked(() => {draw_State = 1})
-	select('#Dynamic_rerender')			  	.mouseClicked(() => {draw_State = 2; insTrigger_DynamicR=true;insTrigger_DynamicLive=true;})
-	select('#Dynamic_live')			  		.mouseClicked(() => {draw_State = 3; insTrigger_DynamicR=true;insTrigger_DynamicLive=true;})
+	select('#Static')			.mouseClicked(() => {draw_State = 1;
+		insTrigger_Static=true;
+		insTrigger_DynamicR=true;
+		insTrigger_DynamicLive=true;
+	})
+	select('#Dynamic_rerender')	.mouseClicked(() => {draw_State = 2;
+		insTrigger_Static=true;
+		insTrigger_DynamicR=true;
+		insTrigger_DynamicLive=true;
+	})
+	select('#Dynamic_live')		.mouseClicked(() => {draw_State = 3;
+		insTrigger_Static=true;
+		insTrigger_DynamicR=true;
+		insTrigger_DynamicLive=true;
+	})
 }
