@@ -1,20 +1,23 @@
 // ``SLIDERS``
 p5.disableFriendlyErrors = true;
 
-let a;
-let b;
-let c;
-let drotateX;
-let drotateY;
-let drotateZ;
-
 let x = 0.01;
 let y = 0;
 let z = 0;
 
-let scalea;
+let a;
+let b;
+let c;
+
 let dt;
+let scalea;
 let points_amount;
+
+let drotateX;
+let drotateY;
+let drotateZ;
+
+
 
 // insOnOffButton
 let insOnOffButton;
@@ -30,7 +33,7 @@ let controlWithMouse = false
 // private shit
 let speedCam = 5
 let points = []
-let draw_State = 2
+let draw_State = 'static'
 let pointMaker_dynamicR;
 
 function setup() {
@@ -39,6 +42,19 @@ function setup() {
 	htmlBinding()	
 	colorMode(HSB);
 }
+
+function draw(){
+
+	switch(draw_State){
+		case 'static': doStatic(); break;
+		case 'dynamicR': doDynaminR(); break;
+		case 'dynamicLive': doDynaminLive(); break;
+		default: throw 'draw_State broken';
+	}
+}
+
+
+
 
 let see_All_Lorenz_Points = (colorr) => {
 	
@@ -228,15 +244,7 @@ let doDynaminLive = () => {
 	see_All_Lorenz_Points(color(0,0,250));
 }
 
-function draw(){
 
-	switch(draw_State){
-		case 1: doStatic(); break;
-		case 2: doDynaminR(); break;
-		case 3: doDynaminLive(); break;
-		default: throw 'draw_State broken';
-	}
-}
 
 // для статикы
 function add_New_ALL_Points() {
@@ -376,18 +384,19 @@ let htmlBinding = () => {
 	dt.value(0.01)
 	dtVal.value(0.01)
 	
+	
 	// смена режима
-	select('#Static')			.mouseClicked(() => {draw_State = 1;
+	select('#Static')			.mouseClicked(() => {draw_State = 'static';
 		insTrigger_Static=true;
 		insTrigger_DynamicR=true;
 		insTrigger_DynamicLive=true;
 	})
-	select('#Dynamic_rerender')	.mouseClicked(() => {draw_State = 2;
+	select('#Dynamic_rerender')	.mouseClicked(() => {draw_State = 'dynamicR';
 		insTrigger_Static=true;
 		insTrigger_DynamicR=true;
 		insTrigger_DynamicLive=true;
 	})
-	select('#Dynamic_live')		.mouseClicked(() => {draw_State = 3;
+	select('#Dynamic_live')		.mouseClicked(() => {draw_State = 'dynamicLive';
 		insTrigger_Static=true;
 		insTrigger_DynamicR=true;
 		insTrigger_DynamicLive=true;
