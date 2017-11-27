@@ -33,10 +33,10 @@ let points = []
 let draw_State = 2
 let pointMaker_dynamicR;
 
-function setup() {
+let setup = () => {
 	let can = createCanvas(1500, 800, WEBGL);
 	can.parent(select('#can'))
-	htmlBinding()	
+	htmlBinding();
 	colorMode(HSB);
 }
 
@@ -90,23 +90,11 @@ let see_All_Lorenz_Points = (colorr) => {
 		beginShape();
 		noFill();
 		strokeWeight(2)
+
 		let hu = 0;
-		// points.forEach( (el,ind)=>
-		// {
-			// let v = el;
-
-			// vertex(v['point'].x, v['point'].y, v['point'].z);
-
-			// stroke(v['color'], 82, 50);
-
-		 //    hu += 0.1;
-		 //    if (hu > 255)
-		 //    	hu = 0
-		// })
-
-		for (var i = points.length - 1; i >= 0; i--) {
-			
-			let v = points[i];
+		points.forEach( (el,ind)=>
+		{
+			let v = el;
 
 			vertex(v['point'].x, v['point'].y, v['point'].z);
 
@@ -115,7 +103,8 @@ let see_All_Lorenz_Points = (colorr) => {
 		    hu += 0.1;
 		    if (hu > 255)
 		    	hu = 0
-		}
+		})
+		
 		endShape();
 
 	pop();
