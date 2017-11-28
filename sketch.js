@@ -1,5 +1,13 @@
-// ``SLIDERS``
 p5.disableFriendlyErrors = true;
+
+
+
+
+//								can change
+
+let points = []
+
+
 
 let x = 0.01;
 let y = 0;
@@ -17,9 +25,89 @@ let drotateX;
 let drotateY;
 let drotateZ;
 
+// controll
+
+let keyz = [
+    {  status:false,  code:'w' },
+    {  status:false,  code:'s' },
+    {  status:false,  code:'a' },
+    {  status:false,  code:'d' },
+
+    {  status:false,  code:'q' },
+    {  status:false,  code:'e' },
+
+    {  status:false,  code:'c' },
+    {  status:false,  code:'v' },
+
+    {  status:false,  code:'1' },
+    {  status:false,  code:'2' },
+    {  status:false,  code:'4' },
+    {  status:false,  code:'5' },
+    {  status:false,  code:'7' },
+    {  status:false,  code:'8' },
+  ]
+
+function keyPressed(event) {
+  for (let i = 0; i < keyz.length; i++) {
+    if (event.key == keyz[i].code){
+      keyz[i].status = true
+      break;
+    }
+  }
+
+	// console.log(keyCode)
+	// use keyPressed() when you need to switch something like button
+	// coz control() are launch every frame,
+	// so u will switch your btns very fast
+	switch(event.keyCode){
+		case 82: 	insTrigger_DynamicR=true; insTrigger_DynamicLive=true;		break; // r
+		case 77: 	controlWithMouse=!controlWithMouse; 						break; // m
+		case 75:	ShowCoordinates = !ShowCoordinates; 						break; // k
+		case 76:	autoMove = !autoMove;				 						break; // l
+	}
+}
+
+function keyReleased(event) {
+  for (let i = 0; i < keyz.length; i++) {
+    if (event.key == keyz[i].code){
+      keyz[i].status = false
+      break;
+    }
+  }
+}
+
+function control(){
+
+  keyz.map(x => {
+
+    // нажата ли клавиша
+    if (x.status) {
+
+        // если нажата, то выполни действие, которое означает .code
+        switch(x.code){
+			case 'w': 	drotateY.value(drotateY.value() + speedCam); 	break;
+			case 's': 	drotateY.value(drotateY.value() - speedCam); 	break;
+			case 'd': 	drotateX.value(drotateX.value() + speedCam); 	break;
+			case 'a': 	drotateX.value(drotateX.value() - speedCam); 	break;
+			case 'q': 	drotateZ.value(drotateZ.value() + speedCam); 	break;
+			case 'e': 	drotateZ.value(drotateZ.value() - speedCam); 	break;
+			case 'c': 	scalea.value(scalea.value() - .1); 				break;
+			case 'v': 	scalea.value(scalea.value() + .1); 				break;
+
+			case '1': 	a.value(a.value() + .1); break;
+			case '2': 	a.value(a.value() - .1); break;
+			case '4':    b.value(b.value() + .1); break;
+			case '5':    b.value(b.value() - .1); break;
+			case '7':    c.value(c.value() + .1); break;
+			case '8':    c.value(c.value() - .1); break;
+      }
+    }
+  })
+}
+
+// end controll
 
 
-// insOnOffButton
 let insOnOffButton;
 let insVal = false;
 let insTrigger = false;
@@ -32,13 +120,13 @@ let autoMove = false
 let controlWithMouse = false
 // private shit
 let speedCam = 5
-let points = []
 let draw_State = 'static'
 let pointMaker_dynamicR;
 
 function setup() {
 	let can = createCanvas(1500, 800, WEBGL);
 	can.parent(select('#can'))
+
 	htmlBinding()	
 	colorMode(HSB);
 }
@@ -265,42 +353,7 @@ function add_New_ALL_Points() {
 	}
 }
 
-function keyPressed(){
-	// console.log(keyCode)
-	// use keyPressed() when you need to switch something like button
-	// coz control() are launch every frame,
-	// so u will switch your btns very fast
-	switch(keyCode){
-		case 82: 	insTrigger_DynamicR=true; insTrigger_DynamicLive=true;		break; // r
-		case 77: 	controlWithMouse=!controlWithMouse; 						break; // m
-		case 75:	ShowCoordinates = !ShowCoordinates; 						break; // k
-		case 76:	autoMove = !autoMove;				 						break; // l
-	}
-}
 
-let control = () => {
-	if (keyIsPressed === true) {
-		switch(keyCode){
-			case 119: 	drotateY.value(drotateY.value() + speedCam); 	break; //w
-			case 115: 	drotateY.value(drotateY.value() - speedCam); 	break; //s
-			case 100: 	drotateX.value(drotateX.value() + speedCam); 	break; //d
-			case  97: 	drotateX.value(drotateX.value() - speedCam); 	break; //a
-			case 113: 	drotateZ.value(drotateZ.value() + speedCam); 	break; //q
-			case 101: 	drotateZ.value(drotateZ.value() - speedCam); 	break; //e
-			case 99: 	scalea.value(scalea.value() - .1); 				break; // c
-			case 118: 	scalea.value(scalea.value() + .1); 				break; // v
-
-			//                                             numpad
-			case 49: 	a.value(a.value() + .1); break; //   1
-			case 50: 	a.value(a.value() - .1); break; //   2
-			case 52:    b.value(b.value() + .1); break; //   4
-			case 53:    b.value(b.value() - .1); break; //   5
-			case 55:    c.value(c.value() + .1); break; //   6
-			case 56:    c.value(c.value() - .1); break; //   7
-			
-		}
-	}
-}
 
 let htmlBinding = () => {
 
@@ -384,21 +437,21 @@ let htmlBinding = () => {
 	dt.value(0.01)
 	dtVal.value(0.01)
 	
-	
+
 	// смена режима
 	select('#Static')			.mouseClicked(() => {draw_State = 'static';
-		insTrigger_Static=true;
-		insTrigger_DynamicR=true;
-		insTrigger_DynamicLive=true;
+		switchAllTrigers()
 	})
 	select('#Dynamic_rerender')	.mouseClicked(() => {draw_State = 'dynamicR';
-		insTrigger_Static=true;
-		insTrigger_DynamicR=true;
-		insTrigger_DynamicLive=true;
+		switchAllTrigers()
 	})
 	select('#Dynamic_live')		.mouseClicked(() => {draw_State = 'dynamicLive';
-		insTrigger_Static=true;
-		insTrigger_DynamicR=true;
-		insTrigger_DynamicLive=true;
+		switchAllTrigers()
 	})
+}
+
+function switchAllTrigers() {
+	insTrigger_Static=true;
+	insTrigger_DynamicR=true;
+	insTrigger_DynamicLive=true;
 }
